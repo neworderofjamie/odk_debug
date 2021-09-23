@@ -15,12 +15,14 @@
 const cv::Scalar odk2MaskLowerBound(1, 1, 1);
 const cv::Scalar odk2MaskUpperBound(255, 255, 255);
 
+using namespace BoBRobotics;
 using namespace units::angle;
 using namespace units::literals;
 
 int bobMain(int argc, char **argv)
 {
-    BoBRobotics::Navigation::PerfectMemoryRotater<> pm(cv::Size(256, 63));
+    //Navigation::PerfectMemoryRotater<> pm(cv::Size(256, 63));
+    Navigation::PerfectMemoryRotater<Navigation::PerfectMemoryStore::RawImage<BoBRobotics::Navigation::CorrCoefficient>> pm(cv::Size(256, 63));
     const filesystem::path dataPath{"office"};
 
     {
@@ -38,7 +40,7 @@ int bobMain(int argc, char **argv)
             assert(!snapshot.empty());
 
             // Build mask
-            const BoBRobotics::ImgProc::Mask mask(snapshot, odk2MaskLowerBound, odk2MaskUpperBound);
+            const ImgProc::Mask mask(snapshot, odk2MaskLowerBound, odk2MaskUpperBound);
 
             // Convert to grayscale
             cv::cvtColor(snapshot, snapshot, cv::COLOR_BGR2GRAY);
@@ -66,7 +68,7 @@ int bobMain(int argc, char **argv)
             assert(!snapshot.empty());
 
             // Build mask
-            const BoBRobotics::ImgProc::Mask mask(snapshot, odk2MaskLowerBound, odk2MaskUpperBound);
+            const ImgProc::Mask mask(snapshot, odk2MaskLowerBound, odk2MaskUpperBound);
 
             // Convert to grayscale
             cv::cvtColor(snapshot, snapshot, cv::COLOR_BGR2GRAY);
